@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  app:
+    container_name: quiz_questens_app
+    external_links:
+      - db_quests:db_quests
+    image: quiz_questens
+    ports:
+      - "8080:8080"
+    build: .
+    volumes:
+      - .:/quiz_questens
+    depends_on:
+            - db_quests
+
+  db_quests:
+    container_name: db_quests
+    ports:
+      - "5438:5432"
+    environment: 
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=postgres
+    image: postgres:14.3-alpine3.16
+    volumes:
+      - ../db:/var/lib/postgresql/data
